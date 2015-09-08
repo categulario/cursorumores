@@ -115,12 +115,39 @@ void vImprimeEnlaces (matriz *psmM) {
 }
 
 void vCreaFreeScale (matriz *psmM) {
+    int x, w, z, total, y, v;
     cCreaEnlace(psmM, 0, 1, 2);
     cCreaEnlace(psmM, 0, 2, 2);
     cCreaEnlace(psmM, 0, 3, 2);
     cCreaEnlace(psmM, 3, 4, 2);
+
+    for (w = 5; w < psmM->iNodos; ++w) {
+        for (x = 0, total=0; x <  psmM->iNodos; x++) {
+            total += psmM->psnNodos[x].iEnlaces;
+        }
+        for (z = 0; z < 2; z++) {
+            y = (rand() % total) + 1;
+            for (x = 0, v = 0; x < w; ++x) {
+                v += psmM->psnNodos[x].iEnlaces;
+                if (v>=y){
+                    if (cHayEnlace(psmM, w, x)) {
+                        z--;
+                    } else {
+                        cCreaEnlace(psmM, w, x, 4);
+                    }
+                    x = w;
+                }
+            }
+        }
+    }
 }
 
 void vCreaAleatoria (matriz *psmM, int iX, int iY) {
+    int x;
 
+    for (x = 0; x < psmM->iNodos; x++) {
+        psmM->psnNodos[x].iX = rand() % iX;
+        psmM->psnNodos[x].iY = rand() % iY;
+        psmM->psnNodos[x].fA = (((double)rand()/(double)RAND_MAX)*2+1)*PI;
+    }
 }
