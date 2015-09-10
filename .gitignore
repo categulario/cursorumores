@@ -2,3 +2,4 @@ matriz.so
 libxglib.so
 fs
 par
+*.sublime-*
